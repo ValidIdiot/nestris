@@ -33,28 +33,15 @@ async function startWebcam(deviceId) {
     }
 
     try {
-        // Attempt with strict constraints
+        // Simplified constraints without `deviceId`
         const stream = await navigator.mediaDevices.getUserMedia({
-            video: { deviceId: { exact: deviceId } }
+            video: true // No specific device requested
         });
         const videoElement = document.getElementById('webcam');
         videoElement.srcObject = stream;
         window.stream = stream;
     } catch (error) {
-        if (error.name === 'OverconstrainedError') {
-            // Fallback with relaxed constraints
-            console.warn('OverconstrainedError: Retrying with relaxed constraints.');
-            try {
-                const fallbackStream = await navigator.mediaDevices.getUserMedia({ video: true });
-                const videoElement = document.getElementById('webcam');
-                videoElement.srcObject = fallbackStream;
-                window.stream = fallbackStream;
-            } catch (fallbackError) {
-                console.error('Error accessing the webcam with fallback constraints:', fallbackError);
-            }
-        } else {
-            console.error('Error accessing the webcam:', error);
-        }
+        console.error('Error accessing the webcam:', error);
     }
 }
 
