@@ -28,21 +28,28 @@ async function getDevices() {
 }
 
 async function startWebcam(deviceId) {
-    try {
-        // Stop any existing video streams
-        if (window.stream) {
-            window.stream.getTracks().forEach(track => track.stop());
-        }
+    if (window.stream) {
+        window.stream.getTracks().forEach(track => track.stop());
+    }
 
-        // Get the selected device's video stream
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: deviceId } } });
+    try {
+        // Relaxed constraints
+        const constraints = {
+            video: {
+                deviceId: deviceId ? { exact: deviceId } : undefined, // Use exact if deviceId is available
+                width: { ideal: 1280 }, // Preferred width
+                height: { ideal: 720 }  // Preferred height
+            }
+        };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
         const videoElement = document.getElementById('webcam');
         videoElement.srcObject = stream;
-        window.stream = stream; // Save the stream to stop it later
+        window.stream = stream;
     } catch (error) {
         console.error('Error accessing the webcam:', error);
     }
 }
+
 
 // Get the devices when the page loads
 window.onload = getDevices;
