@@ -1,0 +1,7 @@
+/* styles.css */
+#webcam {
+    transform: scaleX(-1); /* Flips the video horizontally */
+    -webkit-transform: scaleX(-1); /* Ensures compatibility with older webkit browsers */
+    width: 100%; /* Adjusts the video width */
+    height: auto; /* Maintains the aspect ratio */
+}
