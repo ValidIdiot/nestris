@@ -35,7 +35,6 @@ async function startWebcam(deviceId) {
     try {
         // Simplified constraints without `deviceId`
         const stream = await navigator.mediaDevices.getUserMedia({
-            video: true // No specific device requested
         });
         const videoElement = document.getElementById('webcam');
         videoElement.srcObject = stream;
