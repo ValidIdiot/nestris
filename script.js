@@ -2,21 +2,28 @@ async function getDevices() {
     try {
         // Get the list of available media devices
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        // Filter to only include video input devices that are likely capture cards
+        const captureCardDevices = devices.filter(device => 
+            device.kind === 'videoinput' && 
+            (device.label.toLowerCase().includes('capture') || 
+             device.label.toLowerCase().includes('hdmi'))
+        );
 
-        // Populate the dropdown menu with the video devices
+        // Populate the dropdown menu with the capture card devices
         const deviceSelect = document.getElementById('deviceSelect');
         deviceSelect.innerHTML = ""; // Clear existing options
-        videoDevices.forEach(device => {
+        captureCardDevices.forEach(device => {
             const option = document.createElement('option');
             option.value = device.deviceId;
-            option.text = device.label || `Camera ${deviceSelect.length + 1}`;
+            option.text = device.label || `Capture Card ${deviceSelect.length + 1}`;
             deviceSelect.appendChild(option);
         });
 
-        // Start the first available device by default
-        if (videoDevices.length > 0) {
-            startWebcam(videoDevices[0].deviceId);
+        // Start the first available capture card by default
+        if (captureCardDevices.length > 0) {
+            startWebcam(captureCardDevices[0].deviceId);
+        } else {
+            console.warn('No capture card devices found.');
         }
 
         // Add an event listener for device selection change
@@ -34,16 +41,21 @@ async function startWebcam(deviceId) {
     }
 
     try {
-        // Use the selected device ID for the video stream
+        // Use the selected device ID for the video stream, configured for capture cards
         const constraints = {
-            video: { deviceId: { exact: deviceId } }
+            video: {
+                deviceId: { exact: deviceId },
+                width: { ideal: 640 }, // Adjust based on your capture card's capabilities
+                height: { ideal: 480 }, // Full HD resolution
+                frameRate: { ideal: 60 } // Higher frame rates for capture cards, if supported
+            }
         };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         const videoElement = document.getElementById('webcam');
         videoElement.srcObject = stream;
         window.stream = stream;
     } catch (error) {
-        console.error('Error accessing the webcam:', error);
+        console.error('Error accessing the webcam/capture card:', error);
     }
 }
 
