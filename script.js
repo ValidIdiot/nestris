@@ -43,12 +43,6 @@ async function startWebcam(deviceId) {
     try {
         // Use the selected device ID for the video stream, configured for capture cards
         const constraints = {
-            video: {
-                deviceId: { exact: deviceId },
-                width: { ideal: 640 }, // Adjust based on your capture card's capabilities
-                height: { ideal: 480 }, // Full HD resolution
-                frameRate: { ideal: 60 } // Higher frame rates for capture cards, if supported
-            }
         };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         const videoElement = document.getElementById('webcam');

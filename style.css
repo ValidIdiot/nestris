@@ -1,7 +1,120 @@
 /* styles.css */
+
+@font-face {
+    font-family: 'Tetrominoes Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Tetrominoes Regular'), url('./tetrominoes.woff') format('woff');
+}
+
 #webcam {
     transform: scaleX(-1); /* Flips the video horizontally */
     -webkit-transform: scaleX(-1); /* Ensures compatibility with older webkit browsers */
     width: 640px; /* Adjusts the video width */
     height: 480px; /* Maintains the aspect ratio */
 }
+
+/* Base colors for light mode */
+.light-mode {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --primary-color: #1e90ff;
+    --secondary-color: #555555;
+    --border-color: #dddddd;
+    --card-background: #f8f8f8;
+}
+
+/* Dark mode colors */
+:root {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --primary-color: #90caf9;
+    --secondary-color: #b0b0b0;
+    --border-color: #333333;
+    --card-background: #1e1e1e;
+}
+
+/* Apply base styles */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Tetrominoes Regular'/*, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif*/; 
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: var(--card-background);
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.navbar a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: var(--primary-color);
+}
+
+/* Button styling */
+button {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+/* Card styling */
+.card {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Input fields */
+input, select {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary-color);
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+
+
