@@ -6,6 +6,7 @@ async function getDevices() {
 
         // Populate the dropdown menu with the video devices
         const deviceSelect = document.getElementById('deviceSelect');
+        deviceSelect.innerHTML = ""; // Clear existing options
         videoDevices.forEach(device => {
             const option = document.createElement('option');
             option.value = device.deviceId;
@@ -33,8 +34,11 @@ async function startWebcam(deviceId) {
     }
 
     try {
-        // Simplified constraints without `deviceId`
-        const stream = await navigator.mediaDevices.getUserMedia();
+        // Use the selected device ID for the video stream
+        const constraints = {
+            video: { deviceId: { exact: deviceId } }
+        };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
         const videoElement = document.getElementById('webcam');
         videoElement.srcObject = stream;
         window.stream = stream;
